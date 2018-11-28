@@ -33,8 +33,8 @@ help:
 all: help
 
 .PHONY: data results \
-	$(OUT_DETECT)/out_human_ukdata.json \
-	$(OUT_DETECT)/out_human_github.json
+	$(OUT_DETECT)/out_human_ukdata.json $(OUT_DETECT)/out_human_github.json \
+	clean_preprocessing clean_results clean_analysis clean_summaries check_clean
 
 # Detector outputs are precious
 # https://www.gnu.org/software/make/manual/html_node/Special-Targets.html
@@ -374,7 +374,27 @@ $(OUT_ANALYSE)/constants/NumFiles_%.tex: $(OUT_ANALYSE)/summary_%.json | const-d
 #                   #
 #####################
 
-clean_results: clean_analysis
+clean: clean_results clean_preprocessing clean_analysis clean_summaries | check_clean
+
+check_clean:
+	@echo -n "Are you sure? " && read ans && [ $$ans == y ]
+
+clean_preprocessing: check_clean
+	rm -f $(OUT_PREPROCESS)/*.{json,txt}
+
+# delete everything but the 'human' output
+clean_results: check_clean
+	rm -f \
+		$(OUT_DETECT)/out_hypoparsr_*.json \
+		$(OUT_DETECT)/out_normal_*.json \
+		$(OUT_DETECT)/out_our_score_full_no_tie*.json \
+		$(OUT_DETECT)/out_our_score_full_*.json \
+		$(OUT_DETECT)/out_our_score_pattern_only_*.json \
+		$(OUT_DETECT)/out_our_score_type_only_*.json \
+		$(OUT_DETECT)/out_reference_*.json \
+		$(OUT_DETECT)/out_sniffer_*.json \
+		$(OUT_DETECT)/out_suitability_*.json
+
 clean_analysis: clean_summaries
 	rm -f $(OUT_ANALYSE)/figures/*
 	rm -f $(OUT_ANALYSE)/tables/*
