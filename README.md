@@ -64,3 +64,11 @@ If you wish to change the download location of the data, please edit the
 - A working [LaTeX](https://www.latex-project.org/) installation is needed for 
   creating the figures, as well as a working 
   [LaTeXMK](https://mg.readthedocs.io/latexmk.html) installation.
+
+
+## License
+
+With the exception of the submodule in ``scripts/detection/lib/hypoparsr`` 
+this code is licensed under the [MIT 
+license](https://en.wikipedia.org/wiki/MIT_License). See the LICENSE file for 
+more details.
