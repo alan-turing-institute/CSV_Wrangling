@@ -28,7 +28,7 @@ DETECTOR_OPTS=
 #####################
 
 help:
-	echo -e "Please see the README for instructions.\nMain targets are 'output' and 'full'.\n"
+	@echo -e "Please see the README for instructions.\nMain targets are 'output' and 'full'.\n"
 
 all: help
 
@@ -64,7 +64,6 @@ data: | data-dirs
 
 output: results
 
-# TODO
 full: output | data
 
 
@@ -81,19 +80,19 @@ figures tables constants: summaries
 
 figures: figures_github figures_ukdata \
 	$(OUT_ANALYSE)/figures/fail_combined.pdf \
-	$(OUT_ANALYSE)/figures/violin_combined.pdf | figure-dir
+	$(OUT_ANALYSE)/figures/violin_combined.pdf
 
 figures_github: \
 	$(OUT_ANALYSE)/figures/accuracy_all_github.pdf \
 	$(OUT_ANALYSE)/figures/accuracy_human_github.pdf \
 	$(OUT_ANALYSE)/figures/accuracy_normal_github.pdf \
-	$(OUT_ANALYSE)/figures/runtime_github.pdf | figure-dir
+	$(OUT_ANALYSE)/figures/runtime_github.pdf
 
 figures_ukdata: \
 	$(OUT_ANALYSE)/figures/accuracy_all_ukdata.pdf \
 	$(OUT_ANALYSE)/figures/accuracy_human_ukdata.pdf \
 	$(OUT_ANALYSE)/figures/accuracy_normal_ukdata.pdf \
-	$(OUT_ANALYSE)/figures/runtime_ukdata.pdf | figure-dir
+	$(OUT_ANALYSE)/figures/runtime_ukdata.pdf
 
 tables: tables_github tables_ukdata
 
@@ -148,7 +147,6 @@ summary_ukdata: $(OUT_ANALYSE)/summary_ukdata.json
 #                   #
 #####################
 
-preprocess: preprocessing
 preprocessing: \
 	$(OUT_PREPROCESS)/non_normals_ukdata.txt \
 	$(OUT_PREPROCESS)/non_normals_github.txt \
@@ -189,6 +187,8 @@ $(OUT_PREPROCESS)/all_files_ukdata.txt:
 #                   #
 #####################
 
+# meta targets to run detectors independently on both corpora
+
 sniffer: $(OUT_DETECT)/out_sniffer_ukdata.json $(OUT_DETECT)/out_sniffer_github.json
 
 hypoparsr: $(OUT_DETECT)/out_hypoparsr_ukdata.json $(OUT_DETECT)/out_hypoparsr_github.json
@@ -209,7 +209,7 @@ our_score_full_no_tie: $(OUT_DETECT)/out_our_score_full_no_tie_ukdata.json \
 our_score_full: $(OUT_DETECT)/out_our_score_full_ukdata.json \
 	$(OUT_DETECT)/out_our_score_full_github.json
 
-####
+#### Ground truth detection
 
 $(OUT_DETECT)/out_normal_%.json: $(OUT_PREPROCESS)/normals_%.json
 	$(SCRIPT_DIR)/run_extract_normal.py $^ $@
@@ -220,7 +220,7 @@ $(OUT_DETECT)/out_reference_%.json: $(OUT_DETECT)/out_normal_%.json $(OUT_DETECT
 $(OUT_DETECT)/out_human_%.json: $(OUT_PREPROCESS)/non_normals_%.txt
 	tmux new '$(SCRIPT_DIR)/run_human.py $< $@ && exit'
 
-###
+### Detectors
 
 $(OUT_DETECT)/out_sniffer_%.json: $(OUT_PREPROCESS)/all_files_%.txt
 	python $(SCRIPT_DIR)/run_detector.py sniffer $(DETECTOR_OPTS) $< $@
@@ -251,8 +251,6 @@ $(OUT_DETECT)/out_our_score_full_%.json: $(OUT_PREPROCESS)/all_files_%.txt
 #      ANALYSIS     #
 #                   #
 #####################
-
-### summary
 
 $(OUT_ANALYSE)/summary_%.json: \
 	$(OUT_DETECT)/out_reference_%.json \
