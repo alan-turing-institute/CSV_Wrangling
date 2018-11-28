@@ -5,8 +5,8 @@ This is the repository for reproducing the experiments in the paper:
 [**Wrangling Messy CSV files by Detecting Row and Type Patterns**](TODO)
 
 by [G.J.J. van den Burg](https://gertjanvandenburg.com), [A. 
-Nazabal](https://www.turing.ac.uk/people/researchers/alfredo-nazabal) and [C. 
-Sutton](https://homepages.inf.ed.ac.uk/csutton/).
+Nazabal](https://scholar.google.co.uk/citations?user=IanHvT4AAAAJ&hl=en&oi=ao) 
+and [C. Sutton](https://homepages.inf.ed.ac.uk/csutton/).
 
 ## Introduction
 
