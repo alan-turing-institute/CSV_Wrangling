@@ -1,0 +1,4 @@
+[submodule "scripts/detection/lib/hypoparsr"]
+	path = scripts/detection/lib/hypoparsr
+	url = https://github.com/GjjvdBurg/hypoparsr
+	branch = turing

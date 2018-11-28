@@ -1,0 +1,10 @@
+libtmux
+matplotlib
+numpy
+pandas
+regex
+requests
+scipy
+sklearn
+tabulate
+tqdm
