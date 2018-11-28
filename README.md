@@ -4,13 +4,15 @@ This is the repository for reproducing the experiments in the paper:
 
 [**Wrangling Messy CSV files by Detecting Row and Type Patterns**](TODO)
 
-by [G.J.J. van den Burg](https://gertjanvandenburg.com), [A. Nazabal](TODO) 
-and [C. Sutton](TODO).
+by [G.J.J. van den Burg](https://gertjanvandenburg.com), [A. 
+Nazabal](https://www.turing.ac.uk/people/researchers/alfredo-nazabal) and [C. 
+Sutton](https://homepages.inf.ed.ac.uk/csutton/).
 
 ## Introduction
 
-Our experiments are made reproducible through the use of [GNU Make](TODO). See 
-below for the full requirements.
+Our experiments are made reproducible through the use of [GNU 
+Make](https://www.gnu.org/software/make/). See below for the full 
+requirements.
 
 There are two ways to reproduce our results:
 
@@ -59,5 +61,6 @@ If you wish to change the download location of the data, please edit the
   ``install.packages(c('devtools', 'rjson', 'data.tree', 'RecordLinkage', 
   'readr', 'tibble'))``.
 
-- A working [LaTeX](TODO) installation is needed for creating the figures, as 
-  well as a working [LaTeXMK](TODO) installation.
+- A working [LaTeX](https://www.latex-project.org/) installation is needed for 
+  creating the figures, as well as a working 
+  [LaTeXMK](https://mg.readthedocs.io/latexmk.html) installation.
