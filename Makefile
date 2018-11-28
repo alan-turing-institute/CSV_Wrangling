@@ -54,7 +54,11 @@ all: help
 #                   #
 #####################
 
-data:
+data-dirs:
+	mkdir -p $(DATA_DIR_GITHUB)
+	mkdir -p $(DATA_DIR_UKDATA)
+
+data: | data-dirs
 	python $(SCRIPT_DIR)/data_download.py -i ./urls_github.json -o $(DATA_DIR)/github
 	python $(SCRIPT_DIR)/data_download.py -i ./urls_ukdata.json -o $(DATA_DIR)/ukdata
 
