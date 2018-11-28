@@ -39,7 +39,6 @@ do
 	# check if it is already processed
 	if grep -q ${filename} ${OUTPUT_FILE}
 	then
-		echo "File ${filename} already processed."
 		continue
 	fi
 
