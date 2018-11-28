@@ -27,15 +27,16 @@ There are two ways to reproduce our results:
    rerunning the detection methods on all the files. This might take a while 
    depending on the speed of your machine and the number of cores available. 
    Total wall-clock computation time for a single core is estimated at 11 
-   days. The following command will do all of this.
+   days. The following commands will do all of this.
 
+       make clean
        make full
 
-   If you'd like to use multiple cores, you can use:
+   If you'd like to use multiple cores, you can replace the last command with:
 
        make -j X full
 
-   where X is the desired number of cores.
+   where ``X`` is the desired number of cores.
 
 
 ## Data
