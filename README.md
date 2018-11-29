@@ -2,11 +2,14 @@
 
 This is the repository for reproducing the experiments in the paper:
 
-[**Wrangling Messy CSV files by Detecting Row and Type Patterns**](TODO)
+[**Wrangling Messy CSV files by Detecting Row and Type Patterns**](https://arxiv.org/abs/1811.11242)
 
 by [G.J.J. van den Burg](https://gertjanvandenburg.com), [A. 
 Nazabal](https://scholar.google.co.uk/citations?user=IanHvT4AAAAJ&hl=en&oi=ao) 
 and [C. Sutton](https://homepages.inf.ed.ac.uk/csutton/).
+
+If you use this paper or this code in your own work, please cite the above 
+paper using the citation information provided below.
 
 ## Introduction
 
@@ -73,3 +76,18 @@ With the exception of the submodule in ``scripts/detection/lib/hypoparsr``
 this code is licensed under the [MIT 
 license](https://en.wikipedia.org/wiki/MIT_License). See the LICENSE file for 
 more details.
+
+## Citation
+
+```
+@article{van2018wrangling,
+  title = {Wrangling Messy {CSV} Files by Detecting Row and Type Patterns},
+  author = {{van den Burg}, G. J. J. and Nazabal, A. and Sutton, C.},
+  journal = {arXiv preprint arXiv:1811.11242},
+  archiveprefix = {arXiv},
+  year = {2018},
+  eprint = {1811.11242},
+  url = {https://arxiv.org/abs/1811.11242},
+  primaryclass = {cs.DB},
+}
+```
