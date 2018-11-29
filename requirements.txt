@@ -1,3 +1,4 @@
+chardet
 libtmux
 matplotlib
 numpy
