@@ -11,6 +11,7 @@ License: See the LICENSE file.
 """
 
 import json
+import os
 
 from common.detector_result import DetectorResult
 
@@ -74,6 +75,9 @@ def load_detector_results(result_file):
             detector_names.add(record.detector)
 
             fname = record.filename
+            if not os.path.isabs(fname):
+                fname = os.path.abspath(fname)
+                record.filename = fname
             if fname in results:
                 raise ValueError(
                     "Duplicate result for file %s in detector file %s"
