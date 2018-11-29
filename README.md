@@ -55,6 +55,11 @@ with:
 If you wish to change the download location of the data, please edit the 
 ``DATA_DIR`` variable in the Makefile.
 
+**Note** We are aware of the fact that some of the files may change or become 
+unavailable in the future. This is an unfortunate side-effect of using 
+publically available data in this way. The data downloader skips files that 
+are unavailable or that have changed.
+
 
 ## Requirements
 
