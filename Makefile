@@ -400,6 +400,7 @@ clean_results: check_clean
 clean_analysis: clean_summaries
 	rm -f $(OUT_ANALYSE)/figures/*
 	rm -f $(OUT_ANALYSE)/tables/*
+	rm -f $(OUT_ANALYSE)/constants/*
 
 clean_summaries:
 	rm -f $(OUT_ANALYSE)/summary_*.json
