@@ -379,7 +379,7 @@ $(OUT_ANALYSE)/constants/NumFiles_%.tex: $(OUT_ANALYSE)/summary_%.json | const-d
 clean: clean_results clean_preprocessing clean_analysis clean_summaries | check_clean
 
 check_clean:
-	@echo -n "Are you sure? " && read ans && [ $$ans == y ]
+	@echo -n "Are you sure? [y/N]" && read ans && [ $$ans == y ]
 
 clean_preprocessing: check_clean
 	rm -f $(OUT_PREPROCESS)/*.{json,txt}
