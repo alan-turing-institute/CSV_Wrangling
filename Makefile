@@ -50,7 +50,7 @@ all: help
 
 #####################
 #                   #
-#        USER       #
+#        DATA       #
 #                   #
 #####################
 
@@ -62,18 +62,12 @@ data: | data-dirs
 	python $(SCRIPT_DIR)/data_download.py -i ./urls_github.json -o $(DATA_DIR)/github
 	python $(SCRIPT_DIR)/data_download.py -i ./urls_ukdata.json -o $(DATA_DIR)/ukdata
 
-output: results
-
-full: output | data
-
-
 #####################
 #                   #
 #        META       #
 #                   #
 #####################
 
-analysis: results
 results: figures tables constants
 
 figures tables constants: summaries

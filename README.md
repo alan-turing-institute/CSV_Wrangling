@@ -24,7 +24,9 @@ There are two ways to reproduce our results:
    experiments but will regenerate the output used in the paper. The command 
    for this is:
 
-       make output
+   ```bash
+   $ make results
+   ```
 
 2. You can fully reproduce our experiments by downloading the data and 
    rerunning the detection methods on all the files. This might take a while 
@@ -32,12 +34,17 @@ There are two ways to reproduce our results:
    Total wall-clock computation time for a single core is estimated at 11 
    days. The following commands will do all of this.
 
-       make clean
-       make full
+   ```bash
+   make clean       # remove existing output files, except human annotated
+   make data        # download the data
+   make results     # run all the detectors and generate the result files
+   ```
 
    If you'd like to use multiple cores, you can replace the last command with:
 
-       make -j X full
+   ```bash
+   make -j X results
+   ```
 
    where ``X`` is the desired number of cores.
 
@@ -50,12 +57,14 @@ available in a single download. We can however provide URLs to the files and
 add a download script, which is what we do here. The data can be downloaded 
 with:
 
-    make data
+```bash
+make data
+```
 
 If you wish to change the download location of the data, please edit the 
 ``DATA_DIR`` variable in the Makefile.
 
-**Note** We are aware of the fact that some of the files may change or become 
+**Note:** We are aware of the fact that some of the files may change or become 
 unavailable in the future. This is an unfortunate side-effect of using 
 publically available data in this way. The data downloader skips files that 
 are unavailable or that have changed.
