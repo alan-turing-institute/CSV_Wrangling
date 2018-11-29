@@ -14,8 +14,8 @@ paper using the citation information provided below.
 ## Introduction
 
 Our experiments are made reproducible through the use of [GNU 
-Make](https://www.gnu.org/software/make/). See below for the full 
-requirements.
+Make](https://www.gnu.org/software/make/). See below for the full requirements 
+and instructions.
 
 There are two ways to reproduce our results:
 
@@ -78,6 +78,15 @@ hasn't been tested.
   creating the figures, as well as a working 
   [LaTeXMK](https://mg.readthedocs.io/latexmk.html) installation.
 
+
+## Instructions
+
+To clone this repository and all its submodules do:
+
+    git clone --recurse-submodules https://github.com/alan-turing-institute/CSV_Wrangling
+
+Then install the requirements as listed above and run the ``make`` command of 
+your choice.
 
 ## License
 
