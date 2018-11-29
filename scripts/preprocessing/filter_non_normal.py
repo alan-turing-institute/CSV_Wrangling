@@ -14,7 +14,6 @@ License: See the LICENSE file.
 import os
 import json
 
-from tqdm import tqdm
 from tabulate import tabulate
 
 from .normal_forms import detect_form
@@ -29,7 +28,8 @@ def main(input_dir, normal_file, non_normal_file):
 
     counts = {}
 
-    for f in tqdm(files):
+    for f in files:
+        print("[normal_form] Analyzing file: %s" % f)
         form_id, params = detect_form(f, record_result=False, verbose=False)
 
         if not form_id in counts:
