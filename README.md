@@ -58,6 +58,10 @@ If you wish to change the download location of the data, please edit the
 
 ## Requirements
 
+Below are the requirements for reproducing the experiments. Note that at the 
+moment only Linux-based systems are supported. MacOS will probably work, but 
+hasn't been tested.
+
 - Python 3.x with the packages in the ``requirements.txt`` file. These can be 
   installed with: ``pip install --user -r requirements.txt``.
 
