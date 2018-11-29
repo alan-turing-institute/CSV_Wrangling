@@ -15,10 +15,12 @@ import argparse
 import hashlib
 import json
 import os
+import random
 import requests
+import shutil
 import sys
 import tempfile
-import shutil
+import time
 
 
 def md5sum(filename):
@@ -33,14 +35,11 @@ def md5sum(filename):
 
 
 def download_url(urls, md5old, output_dir):
-    tmpfd, tmpfname = tempfile.mkstemp()
-    tmpfid = os.fdopen(tmpfd, "wb")
-
-    req = None
+    response = None
     for url in urls:
         # TODO: Catch error when URL no longer exists
         try:
-            req = requests.get(url, stream=True)
+            response = requests.get(url)
             break
         except requests.exceptions.ConnectionError:
             print(
@@ -48,12 +47,16 @@ def download_url(urls, md5old, output_dir):
                 file=sys.stderr,
             )
             continue
-    if req is None:
+        except requests.exceptions.ChunkedEncodingError:
+            print("Connection error occurred trying to get url: %s" % url,
+                    file=sys.stderr)
+            continue
+    if response is None or response.status_code != 200:
         return None
 
-    for chunk in req.iter_content(chunk_size=1024):
-        if chunk:
-            tmpfid.write(chunk)
+    tmpfd, tmpfname = tempfile.mkstemp()
+    tmpfid = os.fdopen(tmpfd, "wb")
+    tmpfid.write(response.content)
     tmpfid.close()
 
     md5new = md5sum(tmpfname)
@@ -62,6 +65,7 @@ def download_url(urls, md5old, output_dir):
             "Checksum mismatch for URL '%s'. Skipping this file." % url,
             file=sys.stderr,
         )
+        os.unlink(tmpfname)
         return None
     target = os.path.join(output_dir, md5new + ".csv")
     shutil.move(tmpfname, target)
@@ -111,6 +115,7 @@ def main():
         if target is None:
             continue
         print("Downloaded file '%s'" % target)
+        time.sleep(random.random())
 
 
 if __name__ == "__main__":
