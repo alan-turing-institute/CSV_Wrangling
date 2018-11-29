@@ -9,12 +9,12 @@ following fields:
 
 - reason: failure or skip reason, either ``null`` or:
 
- + ``unknown``,
- + ``multiple_answers``,
- + ``no_results``,
- + ``timeout``,
- + ``unreadable``
- + ``non_existent``
+   + ``unknown``,
+   + ``multiple_answers``,
+   + ``no_results``,
+   + ``timeout``,
+   + ``unreadable``
+   + ``non_existent``
 
 - detector: name of the detector
 
