@@ -19,6 +19,9 @@ OUT_ANALYSE = ./results/test/analysis
 OUT_DETECT = ./results/test/detection
 OUT_PREPROCESS = ./results/test/preprocessing
 
+ARXIV_TAR = ./1811.11242.tar
+TAR_DIR = ./tar_unpack
+
 DETECTOR_OPTS=
 
 #####################
@@ -61,6 +64,26 @@ data-dirs:
 data: | data-dirs
 	python $(SCRIPT_DIR)/data_download.py -i ./urls_github.json -o $(DATA_DIR)/github
 	python $(SCRIPT_DIR)/data_download.py -i ./urls_ukdata.json -o $(DATA_DIR)/ukdata
+
+#####################
+#                   #
+#      TESTING      #
+#                   #
+#####################
+
+test: results
+	./utils/compare_results.sh $(OUT_ANALYSE) $(ARXIV_TAR)
+
+$(TAR_DIR): $(ARXIV_TAR)
+	mkdir -p $(TAR_DIR)
+	tar -xf $< -C $@
+
+test_dir:
+	mkdir -p ./test
+
+./test/index.html: results $(TAR_DIR) test_dir
+	python ./utils/generate_html.py --result-dir $(OUT_ANALYSE) \
+	       --tar-dir $(TAR_DIR)/results/test/analysis --output $@
 
 #####################
 #                   #

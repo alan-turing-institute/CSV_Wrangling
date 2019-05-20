@@ -1,0 +1,20 @@
+language: generic
+
+services:
+  - docker
+
+before_install:
+  - docker build -t gjjvdburg/csvwrangling .
+
+script:
+  - mkdir -p /home/travis/build/GjjvdBurg/results
+  - docker run -v /home/travis/build/GjjvdBurg/results:/CSV_Wrangling/test gjjvdburg/csvwrangling /bin/bash -c "make test/index.html"
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: false
+  on:
+    branch: master
+  local_dir: /home/travis/build/GjjvdBurg/results
