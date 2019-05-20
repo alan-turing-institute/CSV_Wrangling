@@ -196,6 +196,7 @@ def main():
 
             elif extension == ".pdf":
                 with wrapper.add(domtags.div(_class="arxiv")):
+                    domtags.p("arXiv:")
                     domtags.object_(
                         data="data:application/pdf;base64,"
                         + base64.b64encode(open(tar_pth, "rb").read()).decode(
@@ -207,6 +208,7 @@ def main():
                     )
 
                 with wrapper.add(domtags.div(_class="generated")):
+                    domtags.p("Generated:")
                     domtags.object_(
                         data="data:application/pdf;base64,"
                         + base64.b64encode(open(gen_pth, "rb").read()).decode(
