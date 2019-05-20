@@ -135,10 +135,10 @@ def main():
                     verifiability of the work """
                 )
                 domtags.a(
-                    "(available here). ",
+                    "(available here)",
                     href="https://github.com/alan-turing-institute/CSV_Wrangling",
                 )
-                domutil.text("I admit this may be taking it a bit too far.")
+                domutil.text(". I admit this may be taking it a bit too far.")
 
     container = doc.add(domtags.div(_class="container"))
 
