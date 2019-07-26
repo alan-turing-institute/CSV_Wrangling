@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Print the failure cases to the terminal, optionally print and plot the 
-confusion matrix.
+Print the failure cases to the terminal.
 
 Author: Gertjan van den Burg
 Copyright (c) 2018 - The Alan Turing Institute
@@ -23,7 +22,7 @@ from tabulate import tabulate
 from common.dialect import ATTRIBUTES
 from common.detector_result import Status
 
-from .core import load_detector_results
+from .core import load_detector_results, is_standard_dialect
 
 
 def parse_args():
@@ -53,16 +52,27 @@ def parse_args():
         help="Plot and print the confusion matrix",
         action="store_true",
     )
+    parser.add_argument(
+        "-m",
+        dest="only_messy",
+        help="Show only failures for messy files",
+        action="store_true",
+    )
 
     return parser.parse_args()
 
 
-def show_complete_failure(ref_results, detector, det_results):
+def show_complete_failure(
+    ref_results, detector, det_results, only_messy=False
+):
     print("Detector: %s. Failure cases." % detector)
     count = 0
     total = 0
     for fname in ref_results:
-        if ref_results[fname].status == Status.SKIP:
+        res_ref = ref_results[fname]
+        if not res_ref.status == Status.OK:
+            continue
+        if only_messy and is_standard_dialect(res_ref.dialect):
             continue
         total += 1
         if det_results[fname].status == Status.SKIP:
@@ -99,7 +109,8 @@ def plot_confusion(cm, clean_classes):
 
 
 def show_property_failure(
-    ref_results, detector, det_results, attr_name, show_confusion=False
+    ref_results, detector, det_results, attr_name, show_confusion=False,
+    only_messy=False
 ):
     print("Detector: %s. Property: %s." % (detector, attr_name))
     count = 0
@@ -107,7 +118,10 @@ def show_property_failure(
     y_true = []
     y_pred = []
     for fname in ref_results:
-        if not ref_results[fname].status == Status.OK:
+        res_ref = ref_results[fname]
+        if not res_ref.status == Status.OK:
+            continue
+        if only_messy and is_standard_dialect(res_ref.dialect):
             continue
         total += 1
         if not det_results[fname].status == Status.OK:
@@ -152,7 +166,9 @@ def main():
     detector, det_results = load_detector_results(args.detector_file)
     _, ref_results = load_detector_results(args.reference_file)
     if args.attr_name is None:
-        show_complete_failure(ref_results, detector, det_results)
+        show_complete_failure(
+            ref_results, detector, det_results, only_messy=args.only_messy
+        )
     else:
         show_property_failure(
             ref_results,
@@ -160,4 +176,5 @@ def main():
             det_results,
             args.attr_name,
             show_confusion=args.confusion,
+            only_messy=args.only_messy,
         )

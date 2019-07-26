@@ -2,11 +2,9 @@
 # -*- coding: utf-8 -*-
 
 """
-Convert summary data to a bar plot with failure rates.
+Convert summary data to a bar plot.
 
 Author: Gertjan van den Burg
-Copyright (c) 2018 - The Alan Turing Institute
-License: See the LICENSE file.
 
 """
 
@@ -46,6 +44,9 @@ def create_fail_graph(results, output_file):
     abbrev = [clean_name(d) for d in ORDERED_DETECTORS]
     tex = (
         "\\documentclass[preview=true]{standalone}\n"
+        "\\pdfinfoomitdate=1\n"
+        "\\pdftrailerid{}\n"
+        "\\pdfsuppressptexinfo=1\n"
         "\\usepackage{tikz}\n"
         "\\usepackage{pgfplots}\n"
         "\\usetikzlibrary{patterns}\n"

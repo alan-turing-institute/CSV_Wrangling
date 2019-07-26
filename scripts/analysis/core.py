@@ -11,7 +11,6 @@ License: See the LICENSE file.
 """
 
 import json
-import os
 
 from common.detector_result import DetectorResult
 
@@ -34,6 +33,7 @@ ORDERED_DETECTORS = [
     "our_score_full_no_tie",
     "our_score_full",
 ]
+TABLE_SPEC = "lrrr|rrrr"
 
 ORDERED_PROP = ["delimiter", "quotechar", "escapechar", "overall"]
 
@@ -93,3 +93,12 @@ def load_detector_results(result_file):
         )
     detector = detector_names.pop()
     return detector, results
+
+def is_standard_dialect(dialect):
+    if (
+        dialect.delimiter == ","
+        and dialect.quotechar in ["", '"']
+        and dialect.escapechar == ""
+    ):
+        return True
+    return False

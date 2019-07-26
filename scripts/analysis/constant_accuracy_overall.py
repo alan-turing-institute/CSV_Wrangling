@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Overall accuracy of a method.
+Overall accuracy of a method averaged over multiple corpora.
 
 Author: Gertjan van den Burg
 Copyright (c) 2018 - The Alan Turing Institute

@@ -16,21 +16,11 @@ import json
 from common.dialect import ATTRIBUTES
 from common.detector_result import Status
 
-from .core import load_detector_results
+from .core import load_detector_results, is_standard_dialect
 
 
 def prop_equal(res1, res2, attr_name):
     return getattr(res1.dialect, attr_name) == getattr(res2.dialect, attr_name)
-
-
-def is_standard_dialect(dialect):
-    if (
-        dialect.delimiter == ","
-        and dialect.quotechar in ["", '"']
-        and dialect.escapechar == ""
-    ):
-        return True
-    return False
 
 
 def compute_attribute_accuracy(
@@ -132,6 +122,39 @@ def compute_fail_percentage(reference, detector, detector_name):
     return n_fail / n_total
 
 
+def compute_nic_split_accuracy(reference, detector, mode=None):
+    files_total = 0
+    files_with_mode = 0
+    for fname in reference:
+        res_ref = reference[fname]
+        if not res_ref.status == Status.OK:
+            continue
+        if not fname in detector:
+            print("Warning: no result for file: %s" % fname)
+            continue
+        res_det = detector[fname]
+
+        files_total += 1
+
+        if mode == "no_results":
+            if not res_det.status == Status.OK:
+                files_with_mode += 1
+        elif mode == "incorrect_results":
+            if (
+                res_det.status == Status.OK
+                and res_det.dialect != res_ref.dialect
+            ):
+                files_with_mode += 1
+        elif mode == "correct_results":
+            if (
+                res_det.status == Status.OK
+                and res_det.dialect == res_ref.dialect
+            ):
+                files_with_mode += 1
+        else:
+            raise ValueError("Unknown mode: %r" % mode)
+    return files_with_mode / files_total
+
 def collect_computation_times(reference, detector, detector_name):
     runtimes = []
     for fname in sorted(reference.keys()):
@@ -143,11 +166,14 @@ def collect_computation_times(reference, detector, detector_name):
                 % (fname, detector_name)
             )
             continue
-        if not detector[fname].status == Status.OK:
-            continue
+        # Note that we don't check whether the detector returned with status
+        # OK, because we want to include failures and timeouts in the runtime
+        # plots as well.
         rt = detector[fname].runtime
         if rt is None:
-            raise ValueError("Runtime is None for result: %r" % detector[fname])
+            raise ValueError(
+                "Runtime is None for result: %r" % detector[fname]
+            )
         runtimes.append(detector[fname].runtime)
 
     return runtimes
@@ -223,6 +249,22 @@ def summarize_standard_accuracy(
     return accuracy
 
 
+def summarize_nic_split_accuracy(
+    reference_results, detector_results_all, mode=None
+):
+    allowed_modes = ["no_results", "incorrect_results", "correct_results"]
+    if mode is None or not mode in allowed_modes:
+        raise ValueError("mode must be one of: %r" % allowed_modes)
+
+    accuracies = {}
+    for detector in detector_results_all:
+        detector_results = detector_results_all[detector]
+        accuracies[detector] = compute_nic_split_accuracy(
+            reference_results, detector_results, mode=mode
+        )
+    return accuracies
+
+
 def create_summary(reference_results, detector_results_all):
     summary = {}
     summary["n_files_all"] = count_reference_ok(
@@ -237,7 +279,9 @@ def create_summary(reference_results, detector_results_all):
     summary["n_files_standard"] = count_standard(
         reference_results, standard=True
     )
-    summary["n_files_messy"] = count_standard(reference_results, standard=False)
+    summary["n_files_messy"] = count_standard(
+        reference_results, standard=False
+    )
 
     # Compute accuracy
     summary["detection_accuracy_all"] = summarize_accuracy(
@@ -256,6 +300,17 @@ def create_summary(reference_results, detector_results_all):
     )
     summary["messy_accuracy_all"] = summarize_standard_accuracy(
         reference_results, detector_results_all, standard=False
+    )
+
+    # Compute No result/Incorrect results/Correct result split
+    summary["no_result_all"] = summarize_nic_split_accuracy(
+        reference_results, detector_results_all, mode="no_results"
+    )
+    summary["incorrect_result_all"] = summarize_nic_split_accuracy(
+        reference_results, detector_results_all, mode="incorrect_results"
+    )
+    summary["correct_result_all"] = summarize_nic_split_accuracy(
+        reference_results, detector_results_all, mode="correct_results"
     )
 
     # Compute failure rates

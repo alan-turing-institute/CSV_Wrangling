@@ -2,18 +2,16 @@
 # -*- coding: utf-8 -*-
 
 """
-Generate a table with accuracies showing standard/messy split.
+Generate a table with accuracies showing standard/non-standard split.
 
-         | Sniff | Suit | Hypo | Our (full) |
----------------------------------------------
-Std (N)  |       |      |      |            |
-Mess (N) |       |      |      |            |
-Totl (N) |       |      |      |            |
+        | Sniff | Suit | Hypo | Our (full) |
+--------------------------------------------
+Std (N) |       |      |      |            |
+NStd (N)|       |      |      |            |
+Totl (N)|       |      |      |            |
 
 
 Author: Gertjan van den Burg
-Copyright (c) 2018 - The Alan Turing Institute
-License: See the LICENSE file.
 Date: 2018-11-18
 
 """
@@ -21,7 +19,12 @@ Date: 2018-11-18
 import argparse
 import json
 
-from .core import ORDERED_DETECTORS, clean_detector_name, check_detectors
+from .core import (
+    ORDERED_DETECTORS,
+    TABLE_SPEC,
+    clean_detector_name,
+    check_detectors,
+)
 from .latex import build_latex_table
 
 
@@ -42,13 +45,19 @@ def create_table(results, output_file):
     for key in ORDERED_DETECTORS:
         row_std.append(results["standard_accuracy_all"][key] * 100.0)
         row_mes.append(results["messy_accuracy_all"][key] * 100.0)
-        row_tot.append(results["detection_accuracy_all"]["overall"][key] * 100.)
+        row_tot.append(
+            results["detection_accuracy_all"]["overall"][key] * 100.0
+        )
 
     headers = [""] + list(map(clean_detector_name, ORDERED_DETECTORS))
 
     table = [row_std, row_mes, row_tot]
     with open(output_file, "w") as fid:
-        fid.write(build_latex_table(table, headers, floatfmt=".2f"))
+        fid.write(
+            build_latex_table(
+                table, headers, floatfmt=".2f", table_spec=TABLE_SPEC
+            )
+        )
 
 
 def parse_args():

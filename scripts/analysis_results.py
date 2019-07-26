@@ -15,29 +15,32 @@ License: See the LICENSE file.
 import sys
 
 from analysis import (
-    generate_fail_figure,
-    generate_bar_plot,
-    generate_box_plots,
-    generate_violin_plots_both,
-    generate_tables,
-    generate_non_standard_table,
+    figure_fail,
+    figure_bar_plot,
+    figure_box_plot,
+    figure_violins,
+    table_accuracy,
+    table_std_messy,
+    table_parse_result
 )
 
 
 def main():
     result_type = sys.argv.pop(1)
     if result_type == "fail_figure":
-        generate_fail_figure.main()
+        figure_fail.main()
     elif result_type == "accuracy_bar":
-        generate_bar_plot.main()
+        figure_bar_plot.main()
     elif result_type == "boxplot":
-        generate_box_plots.main()
+        figure_box_plot.main()
     elif result_type == "violins":
-        generate_violin_plots_both.main()
+        figure_violins.main()
     elif result_type == "tables":
-        generate_tables.main()
+        table_accuracy.main()
     elif result_type == "std_messy":
-        generate_non_standard_table.main()
+        table_std_messy.main()
+    elif result_type == "parse_result":
+        table_parse_result.main()
     else:
         raise ValueError("Unknown result type: %s" % result_type)
 

@@ -5,8 +5,6 @@
 Convert summary data to a bar plot.
 
 Author: Gertjan van den Burg
-Copyright (c) 2018 - The Alan Turing Institute
-License: See the LICENSE file.
 
 """
 
@@ -14,7 +12,12 @@ import json
 import os
 import argparse
 
-from .core import ORDERED_DETECTORS, ORDERED_PROP, check_detectors, clean_detector_name
+from .core import (
+    ORDERED_DETECTORS,
+    ORDERED_PROP,
+    check_detectors,
+    clean_detector_name,
+)
 from .latex import build_latex_doc
 
 
@@ -25,6 +28,9 @@ def create_prop_graph(results, output_file):
     abbrev = [clean_detector_name(d) for d in ORDERED_DETECTORS]
     tex = (
         "\\documentclass[preview=true]{standalone}\n"
+        "\\pdfinfoomitdate=1\n"
+        "\\pdftrailerid{}\n"
+        "\\pdfsuppressptexinfo=1\n"
         "\\usepackage{tikz}\n"
         "\\usepackage{pgfplots}\n"
         "\\pgfplotsset{compat=1.16}\n"

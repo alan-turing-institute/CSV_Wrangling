@@ -2,11 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-Create box plots for runtime.
 
 Author: Gertjan van den Burg
-Copyright (c) 2018 - The Alan Turing Institute
-License: See the LICENSE file.
 
 """
 
@@ -28,6 +25,9 @@ def create_box_and_whisker_plot(runtimes, output_file):
 
     tex = (
         "\\documentclass[preview=true]{standalone}\n"
+        "\\pdfinfoomitdate=1\n"
+        "\\pdftrailerid{}\n"
+        "\\pdfsuppressptexinfo=1\n"
         "\\usepackage{tikz}\n"
         "\\usepackage{pgfplots}\n"
         "\\pgfplotsset{compat=1.16}\n"

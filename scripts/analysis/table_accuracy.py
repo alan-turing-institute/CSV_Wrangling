@@ -5,15 +5,18 @@
 Convert summary data to a latex table
 
 Author: Gertjan van den Burg
-Copyright (c) 2018 - The Alan Turing Institute
-License: See the LICENSE file.
 
 """
 
 import json
 import argparse
 
-from .core import ORDERED_DETECTORS, clean_detector_name, check_detectors
+from .core import (
+    ORDERED_DETECTORS,
+    TABLE_SPEC,
+    clean_detector_name,
+    check_detectors,
+)
 from .latex import build_latex_table
 
 
@@ -29,7 +32,11 @@ def create_table(results, output_file):
     headers = ["Property"] + list(map(clean_detector_name, ORDERED_DETECTORS))
 
     with open(output_file, "w") as fid:
-        fid.write(build_latex_table(table, headers, floatfmt=".2f"))
+        fid.write(
+            build_latex_table(
+                table, headers, floatfmt=".2f", table_spec=TABLE_SPEC
+            )
+        )
 
 
 def parse_args():

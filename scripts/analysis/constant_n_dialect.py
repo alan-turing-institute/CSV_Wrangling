@@ -16,14 +16,17 @@ from common.detector_result import Status
 
 from .core import load_detector_results
 
-def count_dialect(reference):
+
+def count_dialect(result_dicts):
     dialects = set()
-    for fname in reference:
-        res = reference[fname]
-        if not res.status == Status.OK:
-            continue
-        dialects.add(res.dialect)
+    for reference in result_dicts:
+        for fname in reference:
+            res = reference[fname]
+            if not res.status == Status.OK:
+                continue
+            dialects.add(res.dialect)
     return len(dialects)
+
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -35,6 +38,7 @@ def parse_args():
         dest="reference",
         help="Reference file for a specific corpus",
         required=True,
+        nargs="+",
     )
 
     return parser.parse_args()
@@ -42,8 +46,11 @@ def parse_args():
 
 def main():
     args = parse_args()
-    _, reference_results = load_detector_results(args.reference)
-    n_dialect = count_dialect(reference_results)
+    result_dicts = []
+    for reference in args.reference:
+        _, reference_results = load_detector_results(reference)
+        result_dicts.append(reference_results)
+    n_dialect = count_dialect(result_dicts)
 
     with open(args.output, "w") as fid:
         fid.write("%i%%" % n_dialect)

@@ -23,8 +23,11 @@ from analysis import (
     constant_accuracy_overall,
     constant_improve_sniffer,
     constant_improve_sniffer_messy,
-    constant_failure,
     constant_fail_percentage,
+    constant_failure,
+    constant_failure_messy,
+    constant_prop_potential_dialect,
+    constant_known_type,
 )
 
 
@@ -46,6 +49,12 @@ def main():
         constant_fail_percentage.main()
     elif const_name == "num_incorrect_prop":
         constant_n_incorrect_prop.main()
+    elif const_name == "prop_potential_dialect":
+        constant_prop_potential_dialect.main()
+    elif const_name == "fail_percentage_messy":
+        constant_failure_messy.main()
+    elif const_name == "known_type":
+        constant_known_type.main()
     else:
         raise ValueError("Unknown constant: %s" % const_name)
 
