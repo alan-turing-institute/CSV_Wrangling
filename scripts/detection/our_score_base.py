@@ -251,14 +251,6 @@ def make_abstraction(data, dialect):
     return A
 
 
-def count_cd_in_pat(pattern):
-    count = 0
-    while pattern.startswith("CD"):
-        pattern = pattern[len("CD") :]
-        count += 1
-    return count
-
-
 def is_clean(cell):
     return not (eval_types(cell) is None)
 

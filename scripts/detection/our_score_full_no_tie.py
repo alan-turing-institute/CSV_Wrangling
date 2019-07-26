@@ -16,7 +16,6 @@ from collections import Counter
 
 from .core import run
 from .our_score_base import (
-    count_cd_in_pat,
     determine_dqr,
     get_cells,
     is_clean,
@@ -40,8 +39,7 @@ def get_scores(data, dialects, verbose=False):
         row_patterns = Counter(A.split("R"))
         pattern_score = 0
         for pat_p, n_p in row_patterns.items():
-            n_cd = count_cd_in_pat(pat_p)
-            Lk = n_cd + 1
+            Lk = len(pat_p.split("D"))
             pattern_score += n_p * (max(EPS_PAT, Lk - 1) / Lk)
         pattern_score /= len(row_patterns)
 
