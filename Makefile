@@ -92,6 +92,8 @@ test_dir:
 #####################
 
 results: figures tables constants
+# Generate all results
+results: figures tables constants others
 
 figures tables constants: summaries
 
@@ -117,14 +119,15 @@ tables_ukdata: \
 	$(OUT_ANALYSE)/tables/accuracy_all_ukdata.tex \
 	$(OUT_ANALYSE)/tables/accuracy_human_ukdata.tex \
 	$(OUT_ANALYSE)/tables/accuracy_normal_ukdata.tex \
-	$(OUT_ANALYSE)/tables/standard_and_messy_ukdata.tex
+	$(OUT_ANALYSE)/tables/standard_and_messy_ukdata.tex \
+	$(OUT_ANALYSE)/tables/parse_result_ukdata.tex
 
 tables_github: \
 	$(OUT_ANALYSE)/tables/accuracy_all_github.tex \
 	$(OUT_ANALYSE)/tables/accuracy_human_github.tex \
 	$(OUT_ANALYSE)/tables/accuracy_normal_github.tex \
-	$(OUT_ANALYSE)/tables/standard_and_messy_github.tex
-
+	$(OUT_ANALYSE)/tables/standard_and_messy_github.tex \
+	$(OUT_ANALYSE)/tables/parse_result_github.tex
 
 constants: constants_github constants_ukdata \
 	$(OUT_ANALYSE)/constants/AccuracyOverallOurs.tex \
@@ -134,7 +137,12 @@ constants: constants_github constants_ukdata \
 	$(OUT_ANALYSE)/constants/PropFailHypoNoResults.tex \
 	$(OUT_ANALYSE)/constants/PropFailHypoTimeout.tex \
 	$(OUT_ANALYSE)/constants/PropFailSnifferTimeout.tex \
-	$(OUT_ANALYSE)/constants/PropFailSnifferNoResults.tex
+	$(OUT_ANALYSE)/constants/PropFailSnifferNoResults.tex \
+	$(OUT_ANALYSE)/constants/FactorPotentialDialects.tex \
+	$(OUT_ANALYSE)/constants/FailureRateSnifferMessyAll.tex \
+	$(OUT_ANALYSE)/constants/FailureRateOursMessyAll.tex \
+	$(OUT_ANALYSE)/constants/NumDialectTotal.tex \
+	$(OUT_ANALYSE)/constants/PropKnownType.tex
 
 constants_ukdata: \
 	$(OUT_ANALYSE)/constants/NumDialect_ukdata.tex \
@@ -151,6 +159,10 @@ summaries: summary_github summary_ukdata
 summary_github: $(OUT_ANALYSE)/summary_github.json
 
 summary_ukdata: $(OUT_ANALYSE)/summary_ukdata.json
+
+others: \
+	$(OUT_ANALYSE)/other/n_potential_dialect_github.json \
+	$(OUT_ANALYSE)/other/n_potential_dialect_ukdata.json
 
 #####################
 #                   #
@@ -325,12 +337,19 @@ $(OUT_ANALYSE)/tables/accuracy_normal_%.tex: $(OUT_ANALYSE)/summary_%.json | tab
 $(OUT_ANALYSE)/tables/standard_and_messy_%.tex: $(OUT_ANALYSE)/summary_%.json | table-dir
 	$(SCRIPT_DIR)/analysis_results.py std_messy -o $@ -s $^
 
+$(OUT_ANALYSE)/tables/parse_result_%.tex: $(OUT_ANALYSE)/summary_%.json
+	$(SCRIPT_DIR)/analysis_results.py parse_result -o $@ -s $^
+
 #############
 # constants #
 #############
 
 const-dir:
 	mkdir -p $(OUT_ANALYSE)/constants
+
+$(OUT_ANALYSE)/constants/NumDialectTotal.tex: $(OUT_DETECT)/out_reference_github.json \
+	$(OUT_DETECT)/out_reference_ukdata.json | const-dir
+	$(SCRIPT_DIR)/analysis_constants.py n_dialect -r $^ -o $@
 
 $(OUT_ANALYSE)/constants/NumDialect_%.tex: $(OUT_DETECT)/out_reference_%.json | const-dir
 	$(SCRIPT_DIR)/analysis_constants.py n_dialect -r $^ -o $@
@@ -381,11 +400,36 @@ $(OUT_ANALYSE)/constants/PropFailSnifferTimeout.tex: \
 	$(OUT_DETECT)/out_sniffer_github.json $(OUT_DETECT)/out_sniffer_ukdata.json | const-dir
 	$(SCRIPT_DIR)/analysis_constants.py failure -r timeout -d $^ -o $@
 
+$(OUT_ANALYSE)/constants/FactorPotentialDialects.tex: \
+	$(OUT_ANALYSE)/other/n_potential_dialect_github.json \
+	$(OUT_ANALYSE)/other/n_potential_dialect_ukdata.json | const-dir
+	$(SCRIPT_DIR)/analysis_constants.py prop_potential_dialect -i $^ -o $@
+
 $(OUT_ANALYSE)/constants/PropFailOurFull_%.tex: $(OUT_ANALYSE)/summary_%.json | const-dir
 	$(SCRIPT_DIR)/analysis_constants.py fail_percentage -d our_score_full -s $^ -o $@
 
 $(OUT_ANALYSE)/constants/NumFiles_%.tex: $(OUT_ANALYSE)/summary_%.json | const-dir
 	$(SCRIPT_DIR)/analysis_constants.py n_files -s $^ -o $@
+
+$(OUT_ANALYSE)/constants/FailureRateSnifferMessyAll.tex: \
+	$(OUT_ANALYSE)/summary_github.json $(OUT_ANALYSE)/summary_ukdata.json | const-dir
+	$(SCRIPT_DIR)/analysis_constants.py fail_percentage_messy -d sniffer -s $^ -o $@
+
+$(OUT_ANALYSE)/constants/FailureRateOursMessyAll.tex: \
+	$(OUT_ANALYSE)/summary_github.json $(OUT_ANALYSE)/summary_ukdata.json | const-dir
+	$(SCRIPT_DIR)/analysis_constants.py fail_percentage_messy -d our_score_full -s $^ -o $@
+
+$(OUT_ANALYSE)/constants/PropKnownType.tex: \
+	$(OUT_DETECT)/out_reference_github.json $(OUT_DETECT)/out_reference_ukdata.json | const-dir
+	$(SCRIPT_DIR)/analysis_constants.py known_type -r $^ -o $@
+
+## others
+
+other-dir:
+	mkdir -p $(OUT_ANALYSE)/other
+
+$(OUT_ANALYSE)/other/n_potential_dialect_%.json: $(OUT_PREPROCESS)/all_files_%.txt | other-dir
+	$(SCRIPT_DIR)/analysis_potential_dialects.py -i $< -o $@
 
 #####################
 #                   #
