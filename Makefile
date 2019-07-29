@@ -69,10 +69,10 @@ data: | data-dirs
 #####################
 
 # Generate all the result files used in the paper, except those that need 
-# access to the full data (``others`` and PropKnownType.tex).
+# access to the full data (``others``, FactorPotentialDialects.tex, and 
+# PropKnownType.tex).
 output: \
 	$(OUT_ANALYSE)/constants/AccuracyOverallOurs.tex \
-	$(OUT_ANALYSE)/constants/FactorPotentialDialects.tex \
 	$(OUT_ANALYSE)/constants/FailureRateOursMessyAll.tex \
 	$(OUT_ANALYSE)/constants/FailureRateSnifferMessyAll.tex \
 	$(OUT_ANALYSE)/constants/ImprovementOverSniffer.tex \
