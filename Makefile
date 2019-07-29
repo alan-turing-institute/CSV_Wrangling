@@ -91,7 +91,48 @@ test_dir:
 #                   #
 #####################
 
-results: figures tables constants
+# Generate all the result files used in the paper, except those that need 
+# access to the full data (``others`` and PropKnownType.tex).
+output: \
+	$(OUT_ANALYSE)/constants/AccuracyOverallOurs.tex \
+	$(OUT_ANALYSE)/constants/FactorPotentialDialects.tex \
+	$(OUT_ANALYSE)/constants/FailureRateOursMessyAll.tex \
+	$(OUT_ANALYSE)/constants/FailureRateSnifferMessyAll.tex \
+	$(OUT_ANALYSE)/constants/ImprovementOverSniffer.tex \
+	$(OUT_ANALYSE)/constants/ImprovementOverSnifferMessy.tex \
+	$(OUT_ANALYSE)/constants/ImprovementOverSnifferMessyCeil.tex \
+	$(OUT_ANALYSE)/constants/NumDialectTotal.tex \
+	$(OUT_ANALYSE)/constants/NumDialect_github.tex \
+	$(OUT_ANALYSE)/constants/NumDialect_ukdata.tex \
+	$(OUT_ANALYSE)/constants/NumFiles_github.tex \
+	$(OUT_ANALYSE)/constants/NumFiles_ukdata.tex \
+	$(OUT_ANALYSE)/constants/PropFailHypoNoResults.tex \
+	$(OUT_ANALYSE)/constants/PropFailHypoTimeout.tex \
+	$(OUT_ANALYSE)/constants/PropFailOurFull_github.tex \
+	$(OUT_ANALYSE)/constants/PropFailOurFull_ukdata.tex \
+	$(OUT_ANALYSE)/constants/PropFailSnifferNoResults.tex \
+	$(OUT_ANALYSE)/constants/PropFailSnifferTimeout.tex \
+	$(OUT_ANALYSE)/figures/accuracy_all_github.pdf \
+	$(OUT_ANALYSE)/figures/accuracy_all_ukdata.pdf \
+	$(OUT_ANALYSE)/figures/accuracy_human_github.pdf \
+	$(OUT_ANALYSE)/figures/accuracy_human_ukdata.pdf \
+	$(OUT_ANALYSE)/figures/accuracy_normal_github.pdf \
+	$(OUT_ANALYSE)/figures/accuracy_normal_ukdata.pdf \
+	$(OUT_ANALYSE)/figures/fail_combined.pdf \
+	$(OUT_ANALYSE)/figures/runtime_github.pdf \
+	$(OUT_ANALYSE)/figures/runtime_ukdata.pdf \
+	$(OUT_ANALYSE)/figures/violin_combined.pdf \
+	$(OUT_ANALYSE)/tables/accuracy_all_github.tex \
+	$(OUT_ANALYSE)/tables/accuracy_all_ukdata.tex \
+	$(OUT_ANALYSE)/tables/accuracy_human_github.tex \
+	$(OUT_ANALYSE)/tables/accuracy_human_ukdata.tex \
+	$(OUT_ANALYSE)/tables/accuracy_normal_github.tex \
+	$(OUT_ANALYSE)/tables/accuracy_normal_ukdata.tex \
+	$(OUT_ANALYSE)/tables/parse_result_github.tex \
+	$(OUT_ANALYSE)/tables/parse_result_ukdata.tex \
+	$(OUT_ANALYSE)/tables/standard_and_messy_github.tex \
+	$(OUT_ANALYSE)/tables/standard_and_messy_ukdata.tex
+
 # Generate all results
 results: figures tables constants others
 
