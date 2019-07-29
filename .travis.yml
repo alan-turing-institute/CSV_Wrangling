@@ -8,4 +8,4 @@ before_install:
 
 script:
   - mkdir -p /home/travis/build/alan-turing-institute/results
-  - docker run -v /home/travis/build/alan-turing-institute/results:/CSV_Wrangling/test alan-turing-institute/csvwrangling /bin/bash -c "make output"
+  - docker run -v /home/travis/build/alan-turing-institute/results:/CSV_Wrangling/test alan-turing-institute/csvwrangling /bin/bash -c "make output && git diff --exit-code"
