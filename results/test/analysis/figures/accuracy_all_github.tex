@@ -1,0 +1,30 @@
+\documentclass[preview=true]{standalone}
+\pdfinfoomitdate=1
+\pdftrailerid{}
+\pdfsuppressptexinfo=1
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+	ybar,
+	width={400},
+	height={200},
+	ymin=0,
+	legend style={at={(0.5,-0.15)}, anchor=north, legend columns=-1},
+	ylabel={Accuracy (\%)},
+	symbolic x coords={HypoParsr,Sniffer,Suitability,Pattern,Type,No Tie,Full},
+	xtick=data,
+	nodes near coords,
+	nodes near coords align={vertical},
+	every node near coord/.append style={font=\tiny},
+	]
+\addplot coordinates {(HypoParsr,0.8748290013679890) (Sniffer,0.8682170542635659) (Suitability,0.6541267669858641) (Pattern,0.9261285909712722) (Type,0.8832649338805290) (No Tie,0.9138166894664843) (Full,0.9491564067487460) };
+\addplot coordinates {(HypoParsr,0.8290013679890561) (Sniffer,0.9236206110351117) (Suitability,0.4459644322845417) (Pattern,0.9523483812129503) (Type,0.9010487916096671) (No Tie,0.9379844961240310) (Full,0.9735522115823073) };
+\addplot coordinates {(HypoParsr,0.8796169630642955) (Sniffer,0.9436844505243958) (Suitability,0.7485180118559052) (Pattern,0.9794801641586868) (Type,0.9626082991336069) (No Tie,0.9544003647970816) (Full,0.9924760601915185) };
+\addplot coordinates {(HypoParsr,0.8059735522115823) (Sniffer,0.8545371637026904) (Suitability,0.3818969448244414) (Pattern,0.9099407204742362) (Type,0.8360693114455084) (No Tie,0.9060647514819882) (Full,0.9375284997720018) };
+\legend{delimiter,quotechar,escapechar,overall}
+\end{axis}
+\end{tikzpicture}
+\end{document}
