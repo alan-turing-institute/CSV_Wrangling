@@ -1,6 +1,7 @@
 # CSV Wrangling
 
 [![Build Status](https://travis-ci.org/alan-turing-institute/CSV_Wrangling.svg?branch=master)](https://travis-ci.org/alan-turing-institute/CSV_Wrangling)
+[![DOI](https://zenodo.org/badge/158363564.svg)](https://zenodo.org/badge/latestdoi/158363564)
 
 This is the repository for reproducing the experiments in the paper:
 
