@@ -8,13 +8,4 @@ before_install:
 
 script:
   - mkdir -p /home/travis/build/alan-turing-institute/results
-  - docker run -v /home/travis/build/alan-turing-institute/results:/CSV_Wrangling/test alan-turing-institute/csvwrangling /bin/bash -c "make test/index.html"
-
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN
-  keep_history: false
-  on:
-    branch: master
-  local_dir: /home/travis/build/alan-turing-institute/results
+  - docker run -v /home/travis/build/alan-turing-institute/results:/CSV_Wrangling/test alan-turing-institute/csvwrangling /bin/bash -c "make output"

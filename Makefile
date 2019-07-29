@@ -64,26 +64,6 @@ data: | data-dirs
 
 #####################
 #                   #
-#      TESTING      #
-#                   #
-#####################
-
-test: results
-	./utils/compare_results.sh $(OUT_ANALYSE) $(ARXIV_TAR)
-
-$(TAR_DIR): $(ARXIV_TAR)
-	mkdir -p $(TAR_DIR)
-	tar -xf $< -C $@
-
-test_dir:
-	mkdir -p ./test
-
-./test/index.html: results $(TAR_DIR) test_dir
-	python ./utils/generate_html.py --result-dir $(OUT_ANALYSE) \
-	       --tar-dir $(TAR_DIR)/results/test/analysis --output $@
-
-#####################
-#                   #
 #        META       #
 #                   #
 #####################
