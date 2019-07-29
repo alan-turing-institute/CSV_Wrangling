@@ -89,15 +89,6 @@ output: \
 	$(OUT_ANALYSE)/constants/PropFailOurFull_ukdata.tex \
 	$(OUT_ANALYSE)/constants/PropFailSnifferNoResults.tex \
 	$(OUT_ANALYSE)/constants/PropFailSnifferTimeout.tex \
-	$(OUT_ANALYSE)/figures/accuracy_all_github.pdf \
-	$(OUT_ANALYSE)/figures/accuracy_all_ukdata.pdf \
-	$(OUT_ANALYSE)/figures/accuracy_human_github.pdf \
-	$(OUT_ANALYSE)/figures/accuracy_human_ukdata.pdf \
-	$(OUT_ANALYSE)/figures/accuracy_normal_github.pdf \
-	$(OUT_ANALYSE)/figures/accuracy_normal_ukdata.pdf \
-	$(OUT_ANALYSE)/figures/fail_combined.pdf \
-	$(OUT_ANALYSE)/figures/runtime_github.pdf \
-	$(OUT_ANALYSE)/figures/runtime_ukdata.pdf \
 	$(OUT_ANALYSE)/figures/violin_combined.pdf \
 	$(OUT_ANALYSE)/tables/accuracy_all_github.tex \
 	$(OUT_ANALYSE)/tables/accuracy_all_ukdata.tex \
@@ -115,21 +106,7 @@ results: figures tables constants others
 
 figures tables constants: summaries
 
-figures: figures_github figures_ukdata \
-	$(OUT_ANALYSE)/figures/fail_combined.pdf \
-	$(OUT_ANALYSE)/figures/violin_combined.pdf
-
-figures_github: \
-	$(OUT_ANALYSE)/figures/accuracy_all_github.pdf \
-	$(OUT_ANALYSE)/figures/accuracy_human_github.pdf \
-	$(OUT_ANALYSE)/figures/accuracy_normal_github.pdf \
-	$(OUT_ANALYSE)/figures/runtime_github.pdf
-
-figures_ukdata: \
-	$(OUT_ANALYSE)/figures/accuracy_all_ukdata.pdf \
-	$(OUT_ANALYSE)/figures/accuracy_human_ukdata.pdf \
-	$(OUT_ANALYSE)/figures/accuracy_normal_ukdata.pdf \
-	$(OUT_ANALYSE)/figures/runtime_ukdata.pdf
+figures: $(OUT_ANALYSE)/figures/violin_combined.pdf
 
 tables: tables_github tables_ukdata
 
@@ -320,21 +297,6 @@ $(OUT_ANALYSE)/summary_%.json: \
 
 figure-dir:
 	mkdir -p $(OUT_ANALYSE)/figures
-
-$(OUT_ANALYSE)/figures/fail_combined.pdf: $(OUT_ANALYSE)/summary_github.json $(OUT_ANALYSE)/summary_ukdata.json | figure-dir
-	$(SCRIPT_DIR)/analysis_results.py fail_figure -o $@ -s $^
-
-$(OUT_ANALYSE)/figures/accuracy_all_%.pdf: $(OUT_ANALYSE)/summary_%.json | figure-dir
-	$(SCRIPT_DIR)/analysis_results.py accuracy_bar all -o $@ -s $^
-
-$(OUT_ANALYSE)/figures/accuracy_human_%.pdf: $(OUT_ANALYSE)/summary_%.json | figure-dir
-	$(SCRIPT_DIR)/analysis_results.py accuracy_bar human -o $@ -s $^
-
-$(OUT_ANALYSE)/figures/accuracy_normal_%.pdf: $(OUT_ANALYSE)/summary_%.json | figure-dir
-	$(SCRIPT_DIR)/analysis_results.py accuracy_bar normal -o $@ -s $^
-
-$(OUT_ANALYSE)/figures/runtime_%.pdf: $(OUT_ANALYSE)/summary_%.json | figure-dir
-	$(SCRIPT_DIR)/analysis_results.py boxplot -o $@ -s $^
 
 $(OUT_ANALYSE)/figures/violin_combined.pdf: $(OUT_ANALYSE)/summary_github.json $(OUT_ANALYSE)/summary_ukdata.json | figure-dir
 	$(SCRIPT_DIR)/analysis_results.py violins -o $@ -s $^
