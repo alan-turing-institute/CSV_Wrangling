@@ -22,7 +22,7 @@ OUT_PREPROCESS = ./results/test/preprocessing
 ARXIV_TAR = ./1811.11242.tar
 TAR_DIR = ./tar_unpack
 
-DETECTOR_OPTS=
+DETECTOR_OPTS=-v
 
 #####################
 #                   #
@@ -30,10 +30,7 @@ DETECTOR_OPTS=
 #                   #
 #####################
 
-help:
-	@echo -e "Please see the README for instructions.\nMain targets are 'output' and 'full'.\n"
-
-all: help
+all: output
 
 .PHONY: data results \
 	$(OUT_DETECT)/out_human_ukdata.json $(OUT_DETECT)/out_human_github.json \
@@ -256,6 +253,9 @@ $(OUT_PREPROCESS)/all_files_ukdata.txt:
 #     DETECTORS     #
 #                   #
 #####################
+
+.PHONY: sniffer hypoparsr human suitability our_score_type_only our_score_pattern_only \
+	our_score_full_no_tie our_score_full
 
 # meta targets to run detectors independently on both corpora
 
