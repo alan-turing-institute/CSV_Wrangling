@@ -11,6 +11,7 @@ License: See the LICENSE file.
 """
 
 import json
+import os
 
 from common.detector_result import DetectorResult
 
@@ -93,6 +94,7 @@ def load_detector_results(result_file):
         )
     detector = detector_names.pop()
     return detector, results
+
 
 def is_standard_dialect(dialect):
     if (
