@@ -4,29 +4,44 @@
 
 This is the repository for reproducing the experiments in the paper:
 
-[**Wrangling Messy CSV files by Detecting Row and Type Patterns**](https://arxiv.org/abs/1811.11242)
+[**Wrangling Messy CSV files by Detecting Row and Type 
+Patterns**](https://rdcu.be/bLVur) 
+[(PDF)](https://gertjanvandenburg.com/papers/VandenBurg_Nazabal_Sutton_-_Wrangling_Messy_CSV_Files_by_Detecting_Row_and_Type_Patterns_2019.pdf)
 
 by [G.J.J. van den Burg](https://gertjanvandenburg.com), [A. 
 Nazabal](https://scholar.google.co.uk/citations?user=IanHvT4AAAAJ&hl=en&oi=ao) 
 and [C. Sutton](https://homepages.inf.ed.ac.uk/csutton/).
 
-If you use this paper or this code in your own work, please *cite the paper* 
-using the citation information provided below.
+For an implementation of the method developed in the paper, see the 
+[CleverCSV](https://github.com/alan-turing-institute/CleverCSV) repository.
 
-The results in the arXiv version of the paper are [fully 
-verifiable](https://alan-turing-institute.github.io/CSV_Wrangling/) using this 
-repository.
+If you use this paper or this code in your own work, please ***cite the 
+paper*** using for instance the following BibTeX citation:
+
+```bibtex
+@article{van2019wrangling,
+  title = {Wrangling Messy {CSV} Files by Detecting Row and Type Patterns},
+  author = {{van den Burg}, G. J. J. and Nazabal, A. and Sutton, C.},
+  journal = {Data Mining and Knowledge Discovery},
+  year = {2019},
+  month = {Jul},
+  day = {26},
+  issn = {1573-756X},
+  doi = {10.1007/s10618-019-00646-y},
+}
+```
 
 ## Introduction
 
 Our experiments are made reproducible through the use of [GNU 
 Make](https://www.gnu.org/software/make/). You can either set up your local 
-environment with the necessary dependencies, or use the Dockerfile included in 
-the repository.
+environment with the necessary dependencies as described under 
+[Requirements](#requirements), or use the Dockerfile included in the 
+repository.
 
 There are two ways to reproduce our results. The first only reproduces the 
 figures, tables, and constants in the paper from the raw detection results, 
-while the second reruns the detection results as well.
+while the second runs the detection methods as well.
 
 1. You can reproduce the figures, tables, and constants from the raw 
    experimental results included in this repository. This will not re-run all 
@@ -34,7 +49,7 @@ while the second reruns the detection results as well.
    command for this is:
 
    ```bash
-   $ make results
+   $ make output
    ```
 
 2. You can fully reproduce our experiments by downloading the data and 
@@ -76,14 +91,15 @@ If you wish to change the download location of the data, please edit the
 **Note:** We are aware of the fact that some of the files may change or become 
 unavailable in the future. This is an unfortunate side-effect of using 
 publically available data in this way. The data downloader skips files that 
-are unavailable or that have changed.
+are unavailable or that have changed. Note that this may affect the exact 
+reproducibility of the results.
 
 
 ## Requirements
 
-Below are the requirements for reproducing the experiments, if you're not 
-using Docker. Note that at the moment only Linux-based systems are supported. 
-MacOS will probably work, but hasn't been tested.
+Below are the requirements for reproducing the experiments if you're not using 
+Docker. Note that at the moment only Linux-based systems are supported.  MacOS 
+will probably work, but hasn't been tested.
 
 - Python 3.x with the packages in the ``requirements.txt`` file. These can be 
   installed with: ``pip install --user -r requirements.txt``.
@@ -115,18 +131,3 @@ With the exception of the submodule in ``scripts/detection/lib/hypoparsr``
 this code is licensed under the [MIT 
 license](https://en.wikipedia.org/wiki/MIT_License). See the LICENSE file for 
 more details.
-
-## Citation
-
-```
-@article{van2018wrangling,
-  title = {Wrangling Messy {CSV} Files by Detecting Row and Type Patterns},
-  author = {{van den Burg}, G. J. J. and Nazabal, A. and Sutton, C.},
-  journal = {arXiv preprint arXiv:1811.11242},
-  archiveprefix = {arXiv},
-  year = {2018},
-  eprint = {1811.11242},
-  url = {https://arxiv.org/abs/1811.11242},
-  primaryclass = {cs.DB},
-}
-```
