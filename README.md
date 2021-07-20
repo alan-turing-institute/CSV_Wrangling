@@ -96,6 +96,8 @@ publically available data in this way. The data downloader skips files that
 are unavailable or that have changed. Note that this may affect the exact 
 reproducibility of the results.
 
+The complete original data sets are available on request for research 
+purposes, please contact ``gertjanvandenburg at gmail dot com``.
 
 ## Requirements
 
