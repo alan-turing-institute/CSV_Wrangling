@@ -1,5 +1,5 @@
 # High version so we get updated version of texlive
-FROM ubuntu:19.04
+FROM ubuntu:20.04
 
 # Install base packages
 RUN apt-get update && \
