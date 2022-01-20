@@ -10,6 +10,10 @@ DATA_DIR=$(realpath ./data)
 DATA_DIR_GITHUB=$(DATA_DIR)/github
 DATA_DIR_UKDATA=$(DATA_DIR)/ukdata
 
+DEV_DATA_DIR=./devdata
+DEV_DATA_DIR_GITHUB=$(DEV_DATA_DIR)/github
+DEV_DATA_DIR_UKDATA=$(DEV_DATA_DIR)/ukdata
+
 SCRIPT_DIR=./scripts
 ANALYSIS_DIR=$(SCRIPT_DIR)/analysis
 DETECTOR_DIR=$(SCRIPT_DIR)/detection
@@ -32,7 +36,7 @@ DETECTOR_OPTS=-v
 
 all: output
 
-.PHONY: data results \
+.PHONY: data dev-data results \
 	$(OUT_DETECT)/out_human_ukdata.json $(OUT_DETECT)/out_human_github.json \
 	clean_preprocessing clean_results clean_analysis clean_summaries check_clean
 
@@ -54,13 +58,30 @@ all: output
 #                   #
 #####################
 
+.PHONY: data-dirs dev-data-dirs
+
 data-dirs:
 	mkdir -p $(DATA_DIR_GITHUB)
 	mkdir -p $(DATA_DIR_UKDATA)
 
+dev-data-dirs:
+	mkdir -p $(DEV_DATA_DIR_GITHUB)
+	mkdir -p $(DEV_DATA_DIR_UKDATA)
+
 data: | data-dirs
-	python $(SCRIPT_DIR)/data_download.py -i ./urls_github.json -o $(DATA_DIR)/github
-	python $(SCRIPT_DIR)/data_download.py -i ./urls_ukdata.json -o $(DATA_DIR)/ukdata
+	python $(SCRIPT_DIR)/data_download.py -i ./urls_github.json \
+		-o $(DATA_DIR_GITHUB)
+	python $(SCRIPT_DIR)/data_download.py -i ./urls_ukdata.json \
+		-o $(DATA_DIR_UKDATA)
+
+# dev-data is the data that was used during algorithm development
+# it is not used in the remainder of this makefile, as the results in the 
+# paper are based on the test set.
+dev-data: | dev-data-dirs
+	python $(SCRIPT_DIR)/data_download.py -i ./urls_github_dev.json \
+		-o $(DEV_DATA_DIR_GITHUB)
+	python $(SCRIPT_DIR)/data_download.py -i ./urls_ukdata_dev.json \
+		-o $(DEV_DATA_DIR_UKDATA)
 
 #####################
 #                   #
