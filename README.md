@@ -96,8 +96,13 @@ publically available data in this way. The data downloader skips files that
 are unavailable or that have changed. Note that this may affect the exact 
 reproducibility of the results.
 
-The complete original data sets are available on request for research 
-purposes, please contact ``gertjanvandenburg at gmail dot com``.
+The above downloads the "test" set that was used for the evaluation in the 
+paper. For the "working set" that was used to develop our algorithm, run 
+``make dev-data``.
+
+If the above datasets are insufficient, the complete original data sets are 
+available on request for research purposes. Contact ``gertjanvandenburg at 
+gmail dot com``.
 
 ## Requirements
 
